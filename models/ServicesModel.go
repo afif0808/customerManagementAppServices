@@ -1,3 +1,4 @@
 package models
 
-type GetCustomers func(pageNumber int) []CustomerModel
+//GetCustomersFunc returns 'limit' count customers starting from row 'offset'
+type GetCustomersFunc func(limit, offset int) []CustomerModel
