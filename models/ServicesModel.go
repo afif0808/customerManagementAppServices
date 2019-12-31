@@ -1,10 +1,11 @@
 package models
 
-// GetCustomersFunc returns to at most 'limit' customers starting from customer number 'offset'
-// sorted by id
-type GetCustomersFunc func(limit, offset int) []CustomerModel
+// GetCustomersFunc returns to at most 'limit' customers starting from 'afterId' customer
+// the customer list is sorted by id
+type GetCustomersFunc func(limit, afterId int) []CustomerModel
 
-// SearchCustomersFunc returns the search results to at most 'limit' customers
+// GetCustomersFunc returns to at most 'limit' customers starting from 'afterId' customer
 // starting from the 'offset' customer number
-// sorted by id
-type SearchCustomersFunc func(limit, offset int, keyword string)
+// it searches by customer name
+// the customer list is sorted by id
+type SearchCustomersFunc func(limit, afterId int, keyword string)
