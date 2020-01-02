@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"net/http"
 	"net/http/httptest"
 	"testing"
 
@@ -11,5 +10,5 @@ import (
 func TestGetCustomerController(t *testing.T) {
 	testRecoder := httptest.NewRecorder()
 	testRouter := mux.NewRouter()
-	testRequest := new(http.Request)
+	testRequest := httptest.NewRequest("GET", "http://localhost:378/customers", nil)
 }
