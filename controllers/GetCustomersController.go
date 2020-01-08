@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"customerManagementAppServices/models"
+	"encoding/json"
 	"net/http"
 	"strconv"
 )
@@ -28,9 +29,16 @@ func GetCustomersController(getCustomers models.GetCustomersFunc, searchCustomer
 		var getCustomersError error
 		if searchQuery == "" {
 			result, getCustomersError = getCustomers(customerLimit, afterId)
+			if getCustomersError != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+			}
 		} else {
 			result, searchCustomersError = searchCustomers(customerLimit, afterId, searchQuery)
+			if searchCustomersError != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+			}
 		}
 
+		json.NewEncoder(result)
 	})
 }
