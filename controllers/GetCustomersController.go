@@ -8,7 +8,7 @@ import (
 )
 
 // GetCustomersController search for customers by name if parameter url parameter 'q' is defined
-// otherwise , it serves list of customers
+// otherwise , it searves list of customers
 // implements 'Seek Pagination' method
 func GetCustomersController(getCustomers models.GetCustomersServiceModel, searchCustomers models.SearchCustomersServiceModel) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
