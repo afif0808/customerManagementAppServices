@@ -14,10 +14,9 @@ func (handler *MysqlHandler) Execute(statement string) {
 	handler.Conn.Exec(statement)
 }
 
-func (handler *MysqlHandler) Query(statement string) (interfaces.IRow, error) {
+func (handler *MysqlHandler) Query(statement string, arguments ...interface{}) (interfaces.IRow, error) {
 	//fmt.Println(statement)
-	rows, err := handler.Conn.Query(statement)
-
+	rows, err := handler.Conn.Query(statement, arguments)
 	if err != nil {
 		fmt.Println(err)
 		return new(MysqlRow), err
