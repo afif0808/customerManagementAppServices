@@ -10,7 +10,7 @@ import (
 // GetCustomersController search for customers by name if parameter url parameter 'q' is defined
 // otherwise , it serves list of customers
 // implements 'Seek Pagination' method
-func GetCustomersController(getCustomers models.GetCustomersFunc, searchCustomers models.SearchCustomersFunc) http.Handler {
+func GetCustomersController(getCustomers models.GetCustomersServiceModel, searchCustomers models.SearchCustomersServiceModel) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		// denoting limit count of customer
@@ -39,6 +39,6 @@ func GetCustomersController(getCustomers models.GetCustomersFunc, searchCustomer
 			}
 		}
 
-		json.NewEncoder(result)
+		json.NewEncoder(w).Encode(result)
 	})
 }
