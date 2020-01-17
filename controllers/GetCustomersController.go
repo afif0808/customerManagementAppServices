@@ -23,7 +23,7 @@ func GetCustomersController(getCustomers models.GetCustomersServiceModel, search
 		afterId, _ := strconv.Atoi(r.URL.Query().Get("afterId"))
 
 		searchQuery := r.URL.Query().Get("q")
-
+		APIResponse := models.
 		var result []models.CustomerModel
 		var searchCustomersError error
 		var getCustomersError error
