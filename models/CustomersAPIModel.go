@@ -1,13 +1,12 @@
 package models
 
-
 type BulkCustomersAPIModel struct {
-	NextLink     string                 `json:"next"`
-	PreviousLink string                 `json:"previous"`
-	Count        string                 `json:"count"`
-	Result       CustomerModel `json:"result"`
+	NextPageLink       string          `json:"next"`
+	PreviousPageLink   string          `json:"previous"`
+	CustomerLimitCount int             `json:"count"`
+	Result             []CustomerModel `json:"result"`
 }
 
 type SingleCustomerAPIModel struct {
-	Result models.CustomerModel `json:"result"`
+	Result CustomerModel `json:"result"`
 }

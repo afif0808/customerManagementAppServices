@@ -16,7 +16,7 @@ func (handler *MysqlHandler) Execute(statement string) {
 
 func (handler *MysqlHandler) Query(statement string, arguments ...interface{}) (interfaces.IRow, error) {
 	//fmt.Println(statement)
-	rows, err := handler.Conn.Query(statement, arguments)
+	rows, err := handler.Conn.Query(statement, arguments...)
 	if err != nil {
 		fmt.Println(err)
 		return new(MysqlRow), err
