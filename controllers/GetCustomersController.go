@@ -18,7 +18,8 @@ func GetCustomersController(
 	getLastCustomerIdInSearch models.GetLastCustomerIdInSearchModel,
 ) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		// denoting limit count of customer
 		customerLimitCount, parseIntErr := strconv.Atoi(r.URL.Query().Get("limit"))
 		if parseIntErr != nil {
