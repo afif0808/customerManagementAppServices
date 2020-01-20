@@ -23,7 +23,11 @@ func ServeRoutes() *mux.Router {
 	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
 	getCustomersService := services.GetCustomerService(&mysqlHandler)
 	searchCustomerService := services.SearchCustomerService(&mysqlHandler)
-	getCustomersController := controllers.GetCustomersController(getCustomersService, searchCustomerService)
+	getLastCustomerId := services.GetLastCustomerId(&mysqlHandler)
+	getLastCustomerIdInSearch := services.GetLastCustomerIdInSearch(&mysqlHandler)
+	getCustomersController := controllers.GetCustomersController(
+		getCustomersService, searchCustomerService, getLastCustomerId, getLastCustomerIdInSearch,
+	)
 	//routes
 	router.Handle("/api/customers", getCustomersController)
 

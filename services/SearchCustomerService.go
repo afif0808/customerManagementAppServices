@@ -9,9 +9,9 @@ func SearchCustomerService(dbHandler interfaces.IDBHandler) models.SearchCustome
 	return func(limit int, offset int, keyword string) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
 		query, queryErr := dbHandler.Query(
-			`SELECT * FROM customers
+			`SELECT customers.customer_id , customer_name , customer_information FROM customers
        INNER JOIN customers_information ON customers.customer_id = customers_information.customer_id
-       customer_name LIKE ? LIMIT ? OFFSET ?`, "%"+keyword+"%", limit, offset)
+       WHERE customer_name LIKE ? LIMIT ? OFFSET ?`, "%"+keyword+"%", limit, offset)
 		if queryErr != nil {
 			return nil, queryErr
 		}
