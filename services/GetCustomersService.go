@@ -3,6 +3,7 @@ package services
 import (
 	"customerManagementAppServices/interfaces"
 	"customerManagementAppServices/models"
+	"database/sql"
 )
 
 // GetCustomersService returns function which fetchs (from database) to at most 'limit' customers
@@ -17,7 +18,7 @@ func GetCustomerService(dbHandler interfaces.IDBHandler) models.GetCustomersServ
 			 INNER JOIN customers_information ON customers.customer_id = customers_information.customer_id
 			 LIMIT ? OFFSET ?`, limit, offset)
 
-		if queryErr != nil {
+		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return nil, queryErr
 		}
 

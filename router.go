@@ -17,9 +17,11 @@ func ServeRoutes() *mux.Router {
 	router := mux.NewRouter()
 
 	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+
 	if sqlOpenErr != nil {
 		log.Fatal(sqlOpenErr)
 	}
+
 	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
 	getCustomersService := services.GetCustomerService(&mysqlHandler)
 	searchCustomerService := services.SearchCustomerService(&mysqlHandler)

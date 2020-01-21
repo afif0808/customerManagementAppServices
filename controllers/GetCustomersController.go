@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // GetCustomersController search for customers by name if parameter url parameter 'q' is defined
@@ -48,12 +50,14 @@ func GetCustomersController(
 			result, getCustomersError = getCustomers(customerLimitCount, offset)
 			if getCustomersError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
+				return
 			}
 
 			// get last customer id to check if end of page is reached
 			lastCustomerId, getLastCustomerIdError = getLastCustomerId()
 			if getLastCustomerIdError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
+				return
 			}
 
 		} else {
@@ -61,14 +65,16 @@ func GetCustomersController(
 			result, searchCustomersError = searchCustomers(customerLimitCount, offset, searchQuery)
 			if searchCustomersError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
+				return
 			}
 
 			// get last customer id to check if end of page is reached
 			lastCustomerId, getLastCustomerIdInSearchError = getLastCustomerIdInSearch(searchQuery)
 			if getLastCustomerIdInSearchError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
+				return
 			}
-			urlEscapePath += "s=" + searchQuery
+			urlEscapePath += "s=" + searchQuery + "&"
 		}
 
 		var nextPageLink string
@@ -82,10 +88,9 @@ func GetCustomersController(
 		}
 
 		APIResponse := models.BulkCustomersAPIModel{
-			CustomerLimitCount: customerLimitCount,
-			NextPageLink:       nextPageLink,
-			PreviousPageLink:   previousPageLink,
-			Result:             result,
+			NextPageLink:     nextPageLink,
+			PreviousPageLink: previousPageLink,
+			Result:           result,
 		}
 
 		w.Header().Set("Content-Type", "application/json")

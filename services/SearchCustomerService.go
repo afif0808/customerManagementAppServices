@@ -3,6 +3,7 @@ package services
 import (
 	"customerManagementAppServices/interfaces"
 	"customerManagementAppServices/models"
+	"database/sql"
 )
 
 func SearchCustomerService(dbHandler interfaces.IDBHandler) models.SearchCustomersServiceModel {
@@ -12,7 +13,7 @@ func SearchCustomerService(dbHandler interfaces.IDBHandler) models.SearchCustome
 			`SELECT customers.customer_id , customer_name , customer_information FROM customers
        INNER JOIN customers_information ON customers.customer_id = customers_information.customer_id
        WHERE customer_name LIKE ? LIMIT ? OFFSET ?`, "%"+keyword+"%", limit, offset)
-		if queryErr != nil {
+		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return nil, queryErr
 		}
 		for query.Next() {

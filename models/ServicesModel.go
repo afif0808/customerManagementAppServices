@@ -12,3 +12,4 @@ type SearchCustomersServiceModel func(limit, offset int, keyword string) ([]Cust
 
 type GetLastCustomerIdModel func() (int, error)
 type GetLastCustomerIdInSearchModel func(keyword string) (int, error)
+type GetSingleCustomerById func(id int) (CustomerModel, error)
