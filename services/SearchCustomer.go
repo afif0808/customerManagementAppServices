@@ -6,7 +6,7 @@ import (
 	"database/sql"
 )
 
-func SearchCustomerService(dbHandler interfaces.IDBHandler) models.SearchCustomersServiceModel {
+func SearchCustomers(dbHandler interfaces.IDBHandler) models.SearchCustomersModel {
 	return func(limit int, offset int, keyword string) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
 		query, queryErr := dbHandler.Query(

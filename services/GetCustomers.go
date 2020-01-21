@@ -10,7 +10,7 @@ import (
 // starting from customer number 'offset'
 // the customers is sorted by id
 
-func GetCustomerService(dbHandler interfaces.IDBHandler) models.GetCustomersServiceModel {
+func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 	return func(limit int, offset int) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
 		query, queryErr := dbHandler.Query(

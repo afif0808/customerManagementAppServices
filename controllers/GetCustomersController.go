@@ -14,8 +14,8 @@ import (
 // otherwise , it searves list of customers
 // implements 'Seek Pagination' method
 func GetCustomersController(
-	getCustomers models.GetCustomersServiceModel,
-	searchCustomers models.SearchCustomersServiceModel,
+	getCustomers models.GetCustomersModel,
+	searchCustomers models.SearchCustomersModel,
 	getLastCustomerId models.GetLastCustomerIdModel,
 	getLastCustomerIdInSearch models.GetLastCustomerIdInSearchModel,
 ) http.Handler {
@@ -28,10 +28,17 @@ func GetCustomersController(
 		if parseIntErr != nil {
 			customerLimitCount = 10 // default value
 		}
+		if customerLimitCount < 1 {
+			w.WriteHeader(http.StatusBadRequest)
+		}
 
 		// denoting customer list offset
 		// if 'offset' parameter is not given by client or it's invalid then it remains '0'
 		offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
+
+		if offset < 1 {
+			w.WriteHeader(http.StatusBadRequest)
+		}
 
 		searchQuery := r.URL.Query().Get("s")
 

@@ -20,8 +20,8 @@ func TestGetCustomerController(t *testing.T) {
 		log.Fatal(sqlOpenErr)
 	}
 	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
-	getCustomersService := services.GetCustomerService(&mysqlHandler)
-	searchCustomerService := services.SearchCustomerService(&mysqlHandler)
+	getCustomersService := services.GetCustomers(&mysqlHandler)
+	searchCustomerService := services.SearchCustomers(&mysqlHandler)
 	getLastCustomerId := services.GetLastCustomerId(&mysqlHandler)
 	getLastCustomerIdInSearch := services.GetLastCustomerIdInSearch(&mysqlHandler)
 	getCustomersController := GetCustomersController(
