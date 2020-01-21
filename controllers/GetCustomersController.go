@@ -20,12 +20,14 @@ func GetCustomersController(
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
 		// denoting limit count of customer
 		customerLimitCount, parseIntErr := strconv.Atoi(r.URL.Query().Get("limit"))
 		if parseIntErr != nil {
 			customerLimitCount = 10 // default value
 		}
 
+		// denoting customer list offset
 		// if 'offset' parameter is not given by client or it's invalid then it remains '0'
 		offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
 
@@ -40,26 +42,28 @@ func GetCustomersController(
 
 		urlEscapePath := r.URL.EscapedPath() + "?"
 
-		// denoting if client do customer search or get list of customer
+		// denoting if client do customer search or only get list of customer
 		if searchQuery == "" {
-
+			// get customers from database
 			result, getCustomersError = getCustomers(customerLimitCount, offset)
 			if getCustomersError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
-			// get last customer id to determine the end of page.
 
+			// get last customer id to check if end of page is reached
 			lastCustomerId, getLastCustomerIdError = getLastCustomerId()
 			if getLastCustomerIdError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 
 		} else {
+			// search customers from database
 			result, searchCustomersError = searchCustomers(customerLimitCount, offset, searchQuery)
 			if searchCustomersError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 
+			// get last customer id to check if end of page is reached
 			lastCustomerId, getLastCustomerIdInSearchError = getLastCustomerIdInSearch(searchQuery)
 			if getLastCustomerIdInSearchError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
