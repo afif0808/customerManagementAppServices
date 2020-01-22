@@ -36,7 +36,7 @@ func GetCustomersController(
 		// if 'offset' parameter is not given by client or it's invalid then it remains '0'
 		offset, _ := strconv.Atoi(r.URL.Query().Get("offset"))
 
-		if offset < 1 {
+		if offset < 0 {
 			w.WriteHeader(http.StatusBadRequest)
 		}
 
