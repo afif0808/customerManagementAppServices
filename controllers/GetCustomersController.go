@@ -60,7 +60,7 @@ func GetCustomersController(
 				return
 			}
 
-			// get last customer id to check if end of page is reached
+			// get last customer id for checking if end of page is reached
 			lastCustomerId, getLastCustomerIdError = getLastCustomerId()
 			if getLastCustomerIdError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
@@ -75,7 +75,7 @@ func GetCustomersController(
 				return
 			}
 
-			// get last customer id to check if end of page is reached
+			// get last customer id in search result for checking if end of page is reached
 			lastCustomerId, getLastCustomerIdInSearchError = getLastCustomerIdInSearch(searchQuery)
 			if getLastCustomerIdInSearchError != nil {
 				w.WriteHeader(http.StatusInternalServerError)

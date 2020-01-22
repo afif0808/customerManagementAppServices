@@ -6,6 +6,7 @@ import (
 	"database/sql"
 )
 
+// GetLastCustomerId  return function which fetchs last inserted customer from database
 func GetLastCustomerId(dbHandler interfaces.IDBHandler) models.GetLastCustomerIdModel {
 	return func() (int, error) {
 		query, queryErr := dbHandler.Query("SELECT customer_id FROM customers ORDER BY customer_id DESC")

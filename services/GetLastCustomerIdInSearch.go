@@ -6,6 +6,8 @@ import (
 	"database/sql"
 )
 
+// GetLastCustomerIdInSearch return function which fetchs last inserted customer
+// where name contains given keyword from database
 func GetLastCustomerIdInSearch(dbHandler interfaces.IDBHandler) models.GetLastCustomerIdInSearchModel {
 	return func(searchKeyword string) (int, error) {
 		query, queryErr := dbHandler.Query(
