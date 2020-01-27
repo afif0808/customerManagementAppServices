@@ -9,8 +9,8 @@ import (
 func ServeRoutes() *mux.Router {
 
 	router := mux.NewRouter()
-	router.Handle("/api/customers", InitGetCustomersController())
-	router.Handle("/api/customers/{id}", InitGetSingleCustomerByIdController())
-
+	router.Handle("/api/customers", InitGetCustomersController()).Methods("GET")
+	router.Handle("/api/customers/{id}", InitGetSingleCustomerByIdController()).Methods("GET")
+	router.Handle("/api/customers", InitAddCustomerController()).Methods("POST")
 	return router
 }

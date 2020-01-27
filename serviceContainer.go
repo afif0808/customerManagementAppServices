@@ -32,3 +32,12 @@ func InitGetSingleCustomerByIdController() http.Handler {
 	getSingleCustomerById := services.GetSingleCustomerById(&mysqlHandler)
 	return controllers.GetSingleCustomerByIdController(getSingleCustomerById)
 }
+func InitAddCustomerController() http.Handler {
+	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	if sqlOpenErr != nil {
+		log.Fatal(sqlOpenErr)
+	}
+	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
+	addCustomer := services.AddCustomer(&mysqlHandler)
+	return controllers.AddCustomerController(addCustomer)
+}

@@ -1,7 +1,7 @@
 package interfaces
 
 type IDBHandler interface {
-	Execute(statement string)
+	Execute(statement string, arguments ...interface{}) error
 	Query(statement string, arguments ...interface{}) (IRow, error)
 }
 

@@ -10,8 +10,9 @@ type MysqlHandler struct {
 	Conn *sql.DB
 }
 
-func (handler *MysqlHandler) Execute(statement string) {
-	handler.Conn.Exec(statement)
+func (handler *MysqlHandler) Execute(statement string, arguments ...interface{}) error {
+	_, execError := handler.Conn.Exec(statement, arguments...)
+	return execError
 }
 
 func (handler *MysqlHandler) Query(statement string, arguments ...interface{}) (interfaces.IRow, error) {
@@ -23,8 +24,12 @@ func (handler *MysqlHandler) Query(statement string, arguments ...interface{}) (
 	}
 	row := new(MysqlRow)
 	row.Rows = rows
-
 	return row, nil
+
+}
+
+func (handler *MysqlHandler) Prepare(statement string) {
+	// prep, _ := handler.Conn.Prepare("statement")
 }
 
 type MysqlRow struct {

@@ -10,6 +10,8 @@ type GetCustomersModel func(limit, offset int) ([]CustomerModel, error)
 // the customer list is sorted by id
 type SearchCustomersModel func(limit, offset int, keyword string) ([]CustomerModel, error)
 
+type AddCustomerModel func(customerName, customerInformation string) error
+
 type GetLastCustomerIdModel func() (int, error)
 type GetLastCustomerIdInSearchModel func(keyword string) (int, error)
 type GetSingleCustomerById func(id int) (*CustomerModel, error)
