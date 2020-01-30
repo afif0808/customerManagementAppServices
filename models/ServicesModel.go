@@ -18,3 +18,5 @@ type GetFirstCustomerIdModel func() (int, error)
 type GetFirstCustomerIdInSearchModel func(keyword string) (int, error)
 
 type GetSingleCustomerById func(id int) (*CustomerModel, error)
+
+type DeleteCustomerModel func(customerId string) error

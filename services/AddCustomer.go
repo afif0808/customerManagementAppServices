@@ -11,12 +11,20 @@ func AddCustomer(dbHandler interfaces.IDBHandler) models.AddCustomerModel {
 		if customerName == "" {
 			return fmt.Errorf("Error : customer name cannot be empty")
 		}
-		dbHandler.Execute(`
+		addCustomerError := dbHandler.Execute(`
       INSERT INTO customers(customer_name)VALUES(?);
     `, customerName)
-		dbHandler.Execute(`
+		if addCustomerError != nil {
+			return addCustomerError
+		}
+
+		addCustomerInformationError := dbHandler.Execute(`
 		INSERT INTO customers_information(customer_id,customer_information)VALUES(LAST_INSERT_ID(),?)
 	`, customerInformation)
+		if addCustomerInformationError != nil {
+			return addCustomerInformationError
+		}
+
 		return nil
 	}
 }

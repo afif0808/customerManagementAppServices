@@ -51,3 +51,12 @@ func InitUpdateCustomerController() http.Handler {
 	updateCustomer := services.UpdateCustomer(&mysqlHandler)
 	return controllers.UpdateCustomerController(updateCustomer)
 }
+func InitDeleteCustomerController() http.Handler {
+	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	if sqlOpenErr != nil {
+		log.Fatal(sqlOpenErr)
+	}
+	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
+	deleteCustomer := services.DeleteCustomer(&mysqlHandler)
+	return controllers.DeleteCustomerController(deleteCustomer)
+}

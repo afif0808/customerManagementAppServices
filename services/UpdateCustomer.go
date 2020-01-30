@@ -16,14 +16,22 @@ func UpdateCustomer(dbHandler interfaces.IDBHandler) models.UpdateCustomerModel 
 			return fmt.Errorf("Error : customer id cannot be empty")
 		}
 
-		dbHandler.Execute(`
+		updateCustomerError := dbHandler.Execute(`
       UPDATE customers SET customer_name = ?
       WHERE customer_id = ?
     `, newCustomerName, customerId)
-		dbHandler.Execute(`
+		if updateCustomerError != nil {
+			return updateCustomerError
+		}
+
+		updateCustomerInforamtionError := dbHandler.Execute(`
       UPDATE customers_information SET customer_information = ?
       WHERE customer_id = ?
   `, newCustomerInformation, customerId)
+
+		if updateCustomerInforamtionError != nil {
+			return updateCustomerInforamtionError
+		}
 		return nil
 
 	}

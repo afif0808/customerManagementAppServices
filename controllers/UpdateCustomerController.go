@@ -20,7 +20,7 @@ func UpdateCustomerController(updateCustomer models.UpdateCustomerModel) http.Ha
 
 		// reading posted data
 		json.NewDecoder(r.Body).Decode(&postData)
-		log.Println("Ini?", postData)
+
 		// for simplicity customerId is in string type because any type works fine in this case
 		customerId := mux.Vars(r)["id"]
 
