@@ -12,5 +12,7 @@ func ServeRoutes() *mux.Router {
 	router.Handle("/api/customers", InitGetCustomersController()).Methods("GET")
 	router.Handle("/api/customers/{id}", InitGetSingleCustomerByIdController()).Methods("GET")
 	router.Handle("/api/customers", InitAddCustomerController()).Methods("POST")
+	router.Handle("/api/customers/{id}", InitUpdateCustomerController()).Methods("POST")
+
 	return router
 }

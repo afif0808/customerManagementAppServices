@@ -16,8 +16,8 @@ import (
 func GetCustomersController(
 	getCustomers models.GetCustomersModel,
 	searchCustomers models.SearchCustomersModel,
-	getLastCustomerId models.GetLastCustomerIdModel,
-	getLastCustomerIdInSearch models.GetLastCustomerIdInSearchModel,
+	getFirstCustomerId models.GetFirstCustomerIdModel,
+	getFirstCustomerIdInSearch models.GetFirstCustomerIdInSearchModel,
 ) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -43,11 +43,11 @@ func GetCustomersController(
 		searchQuery := r.URL.Query().Get("s")
 
 		var result []models.CustomerModel
-		var lastCustomerId int
+		var customerListLowerBound int
 		var searchCustomersError error
 		var getCustomersError error
-		var getLastCustomerIdError error
-		var getLastCustomerIdInSearchError error
+		var getFirstCustomerIdError error
+		var getFirstCustomerIdInSearchError error
 
 		urlEscapePath := r.URL.EscapedPath() + "?"
 
@@ -60,9 +60,10 @@ func GetCustomersController(
 				return
 			}
 
-			// get last customer id for checking if end of page is reached
-			lastCustomerId, getLastCustomerIdError = getLastCustomerId()
-			if getLastCustomerIdError != nil {
+			// get first customer id as a customer list lower bound
+			// to check if end of page is reached
+			customerListLowerBound, getFirstCustomerIdError = getFirstCustomerId()
+			if getFirstCustomerIdError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
@@ -75,9 +76,10 @@ func GetCustomersController(
 				return
 			}
 
-			// get last customer id in search result for checking if end of page is reached
-			lastCustomerId, getLastCustomerIdInSearchError = getLastCustomerIdInSearch(searchQuery)
-			if getLastCustomerIdInSearchError != nil {
+			// get first customer id as a customer list lower bound
+			// to check if end of page is reached
+			customerListLowerBound, getFirstCustomerIdInSearchError = getFirstCustomerIdInSearch(searchQuery)
+			if getFirstCustomerIdInSearchError != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
@@ -90,7 +92,8 @@ func GetCustomersController(
 		if offset > 0 {
 			previousPageLink = fmt.Sprintf("%vlimit=%v&offset=%v", urlEscapePath, customerLimitCount, offset-customerLimitCount)
 		}
-		if len(result) > 0 && lastCustomerId > result[len(result)-1].Id {
+
+		if len(result) > 0 && customerListLowerBound < result[len(result)-1].Id {
 			nextPageLink = fmt.Sprintf("%vlimit=%v&offset=%v", urlEscapePath, customerLimitCount, offset+customerLimitCount)
 		}
 

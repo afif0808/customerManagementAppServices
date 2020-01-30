@@ -22,10 +22,10 @@ func TestGetCustomerController(t *testing.T) {
 	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
 	getCustomersService := services.GetCustomers(&mysqlHandler)
 	searchCustomerService := services.SearchCustomers(&mysqlHandler)
-	getLastCustomerId := services.GetLastCustomerId(&mysqlHandler)
-	getLastCustomerIdInSearch := services.GetLastCustomerIdInSearch(&mysqlHandler)
+	getFirstCustomerId := services.GetFirstCustomerId(&mysqlHandler)
+	getFirstCustomerIdInSearch := services.GetFirstCustomerIdInSearch(&mysqlHandler)
 	getCustomersController := GetCustomersController(
-		getCustomersService, searchCustomerService, getLastCustomerId, getLastCustomerIdInSearch,
+		getCustomersService, searchCustomerService, getFirstCustomerId, getFirstCustomerIdInSearch,
 	)
 	//routes
 	testRouter.Handle("/customers", getCustomersController)

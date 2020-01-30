@@ -6,12 +6,12 @@ import (
 	"database/sql"
 )
 
-// GetLastCustomerIdInSearch return a function which fetchs last customer's id
-// in descending order which its name contains given keyword from database
-func GetLastCustomerIdInSearch(dbHandler interfaces.IDBHandler) models.GetLastCustomerIdInSearchModel {
+// GetLastCustomerIdInSearch return a function which fetchs first customer's id
+// in ascending order which its name contains given keyword from database
+func GetFirstCustomerIdInSearch(dbHandler interfaces.IDBHandler) models.GetFirstCustomerIdInSearchModel {
 	return func(searchKeyword string) (int, error) {
 		query, queryErr := dbHandler.Query(
-			"SELECT customer_id FROM customers WHERE customer_name LIKE ? ORDER BY customer_id DESC",
+			"SELECT customer_id FROM customers WHERE customer_name LIKE ? ORDER BY customer_id ASC",
 			"%"+searchKeyword+"%",
 		)
 		if queryErr != nil && queryErr != sql.ErrNoRows {

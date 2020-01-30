@@ -1,8 +1,8 @@
 package models
 
 type BulkCustomersAPIModel struct {
-	NextPageLink     string          `json:"next,omitempty"`
-	PreviousPageLink string          `json:"previous,omitempty"`
+	NextPageLink     string          `json:"next"`
+	PreviousPageLink string          `json:"previous"`
 	Result           []CustomerModel `json:"result,null"`
 }
 

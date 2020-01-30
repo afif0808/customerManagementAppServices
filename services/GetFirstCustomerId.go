@@ -6,10 +6,10 @@ import (
 	"database/sql"
 )
 
-// GetLastCustomerId  return a function which fetchs last customer's id in descending order from database
-func GetLastCustomerId(dbHandler interfaces.IDBHandler) models.GetLastCustomerIdModel {
+// GetLastCustomerId  return a function which fetchs first customer's id in ascending order from database
+func GetFirstCustomerId(dbHandler interfaces.IDBHandler) models.GetFirstCustomerIdModel {
 	return func() (int, error) {
-		query, queryErr := dbHandler.Query("SELECT customer_id FROM customers ORDER BY customer_id DESC")
+		query, queryErr := dbHandler.Query("SELECT customer_id FROM customers ORDER BY customer_id ASC")
 		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return 0, queryErr
 		}
