@@ -7,6 +7,8 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+
+	"github.com/rs/cors"
 )
 
 func InitGetCustomersController() http.Handler {
@@ -58,5 +60,5 @@ func InitDeleteCustomerController() http.Handler {
 	}
 	mysqlHandler := infrastructures.MysqlHandler{Conn: mysqlConn}
 	deleteCustomer := services.DeleteCustomer(&mysqlHandler)
-	return controllers.DeleteCustomerController(deleteCustomer)
+	return cors.AllowAll().Handler(controllers.DeleteCustomerController(deleteCustomer))
 }
