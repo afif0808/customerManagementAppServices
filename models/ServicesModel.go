@@ -1,5 +1,7 @@
 package models
 
+// Service Model is function signature for services
+
 // GetCustomersServiceModel returns to at most 'limit' customers starting from customer number 'offset'
 // the customer list is sorted by id
 type GetCustomersModel func(limit, offset int) ([]CustomerModel, error)
