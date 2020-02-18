@@ -10,9 +10,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// GetCustomersController search for customers by name if parameter url parameter 'q' is defined
-// otherwise , it searves list of customers
-// implements 'Seek Pagination' method
+// GetCustomersController gets or searches customers.
+// search customer if 's' url parameter is given otherwise it gets customers.
+// it implements offset pagination
 func GetCustomersController(
 	getCustomers models.GetCustomersModel,
 	searchCustomers models.SearchCustomersModel,
@@ -49,8 +49,7 @@ func GetCustomersController(
 		var getFirstCustomerIdError error
 		var getFirstCustomerIdInSearchError error
 
-		urlEscapePath := r.URL.EscapedPath() + "?"
-
+		siteURL := fmt.Sprintf("http://%v%v?", r.Host, r.URL.Path)
 		// denoting if client do customer search or only get list of customer
 		if searchQuery == "" {
 			// get customers from database
@@ -83,18 +82,19 @@ func GetCustomersController(
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			urlEscapePath += "s=" + searchQuery + "&"
+			siteURL += "s=" + searchQuery + "&"
 		}
 
 		var nextPageLink string
 		var previousPageLink string
 
+		// denoting next and previous customer list link
 		if offset > 0 {
-			previousPageLink = fmt.Sprintf("%vlimit=%v&offset=%v", urlEscapePath, customerLimitCount, offset-customerLimitCount)
+			previousPageLink = fmt.Sprintf("%vlimit=%v&offset=%v", siteURL, customerLimitCount, offset-customerLimitCount)
 		}
 
 		if len(result) > 0 && customerListLowerBound < result[len(result)-1].Id {
-			nextPageLink = fmt.Sprintf("%vlimit=%v&offset=%v", urlEscapePath, customerLimitCount, offset+customerLimitCount)
+			nextPageLink = fmt.Sprintf("%vlimit=%v&offset=%v", siteURL, customerLimitCount, offset+customerLimitCount)
 		}
 
 		APIResponse := models.BulkCustomersAPIModel{

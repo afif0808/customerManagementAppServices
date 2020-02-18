@@ -6,10 +6,9 @@ import (
 	"database/sql"
 )
 
-// GetCustomersService returns function which fetchs (from database) to at most 'limit' customers
-// starting from customer number 'offset'
-// the customers is sorted by id
-
+// GetCustomersService gets customers from database . the customers are sorted by id.
+// this function implements 'Offset Pagination'
+// it's done by returning function that implement GetCustomersModel.
 func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 	return func(limit int, offset int) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
