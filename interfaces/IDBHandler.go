@@ -8,4 +8,5 @@ type IDBHandler interface {
 type IRow interface {
 	Scan(dest ...interface{}) error
 	Next() bool
+	Close() error
 }
