@@ -6,8 +6,7 @@ import (
 	"database/sql"
 )
 
-// SearchCustomers return function which fetch customers which
-// its name contains given keyword from database
+// SearchCustomers return function which fetch customers with name contains given keyword
 func SearchCustomers(dbHandler interfaces.IDBHandler) models.SearchCustomersModel {
 	return func(limit int, offset int, keyword string) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
@@ -22,6 +21,8 @@ func SearchCustomers(dbHandler interfaces.IDBHandler) models.SearchCustomersMode
 		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return nil, queryErr
 		}
+		defer query.Close()
+
 		for query.Next() {
 			customer := models.CustomerModel{}
 			query.Scan(&customer.Id, &customer.Name, &customer.Information)

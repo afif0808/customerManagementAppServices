@@ -23,6 +23,8 @@ func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 			return nil, queryErr
 		}
 
+		defer query.Close()
+
 		for query.Next() {
 			customer := models.CustomerModel{}
 			query.Scan(&customer.Id, &customer.Name, &customer.Information)
@@ -30,4 +32,5 @@ func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 		}
 		return customers, nil
 	}
+
 }

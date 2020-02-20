@@ -13,10 +13,12 @@ func GetFirstCustomerId(dbHandler interfaces.IDBHandler) models.GetFirstCustomer
 		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return 0, queryErr
 		}
+		defer query.Close()
 		var customerId int
 		if query.Next() {
 			query.Scan(&customerId)
 		}
+
 		return customerId, nil
 	}
 }

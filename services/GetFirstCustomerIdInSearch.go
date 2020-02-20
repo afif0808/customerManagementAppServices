@@ -17,6 +17,8 @@ func GetFirstCustomerIdInSearch(dbHandler interfaces.IDBHandler) models.GetFirst
 		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return 0, queryErr
 		}
+		defer query.Close()
+
 		var customerId int
 		if query.Next() {
 			query.Scan(&customerId)

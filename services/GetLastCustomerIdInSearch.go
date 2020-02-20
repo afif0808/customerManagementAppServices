@@ -17,6 +17,8 @@ func GetLastCustomerIdInSearch(dbHandler interfaces.IDBHandler) models.GetLastCu
 		if queryErr != nil && queryErr != sql.ErrNoRows {
 			return 0, queryErr
 		}
+		defer query.Close()
+
 		var customerId int
 		if query.Next() {
 			query.Scan(&customerId)

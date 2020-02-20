@@ -19,6 +19,8 @@ func GetSingleCustomerById(dbHandler interfaces.IDBHandler) models.GetSingleCust
 		if queryErr != nil {
 			return nil, queryErr
 		}
+		defer query.Close()
+
 		var customer *models.CustomerModel
 		if query.Next() {
 			customer = &models.CustomerModel{}
