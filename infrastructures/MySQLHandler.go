@@ -16,7 +16,6 @@ func (handler *MysqlHandler) Execute(statement string, arguments ...interface{})
 }
 
 func (handler *MysqlHandler) Query(statement string, arguments ...interface{}) (interfaces.IRow, error) {
-	//fmt.Println(statement)
 	rows, err := handler.Conn.Query(statement, arguments...)
 	if err != nil {
 		fmt.Println(err)
@@ -26,10 +25,6 @@ func (handler *MysqlHandler) Query(statement string, arguments ...interface{}) (
 	row.Rows = rows
 	return row, nil
 
-}
-
-func (handler *MysqlHandler) Prepare(statement string) {
-	// prep, _ := handler.Conn.Prepare("statement")
 }
 
 type MysqlRow struct {
@@ -47,4 +42,7 @@ func (r MysqlRow) Scan(dest ...interface{}) error {
 
 func (r MysqlRow) Next() bool {
 	return r.Rows.Next()
+}
+func (r MysqlRow) Close() error {
+	return r.Rows.Close()
 }
