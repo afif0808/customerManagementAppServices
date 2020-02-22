@@ -4,7 +4,6 @@ import (
 	"customerManagementAppServices/models"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -26,7 +25,6 @@ func UpdateCustomerController(updateCustomer models.UpdateCustomerModel) http.Ha
 
 		newCustomerName := fmt.Sprint(postData["newCustomerName"])
 		newCustomerInformation := fmt.Sprint(postData["newCustomerInformation"])
-		log.Println("nah loh ", newCustomerName, newCustomerInformation)
 		if customerId == "" {
 			w.WriteHeader(http.StatusBadRequest)
 			return

@@ -13,7 +13,7 @@ func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 	return func(limit int, offset int) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
 		query, queryErr := dbHandler.Query(
-			`SELECT customers.customer_id , customer_name , customer_information
+			`SELECT customers.customer_id , customer_name , customer_information ,customer_date_added 
 			 FROM customers , customers_information
 			 WHERE customers.customer_id = customers_information.customer_id
 			 ORDER BY customers.customer_id DESC
@@ -27,7 +27,7 @@ func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 
 		for query.Next() {
 			customer := models.CustomerModel{}
-			query.Scan(&customer.Id, &customer.Name, &customer.Information)
+			query.Scan(&customer.Id, &customer.Name, &customer.Information, &customer.DateAdded)
 			customers = append(customers, customer)
 		}
 		return customers, nil

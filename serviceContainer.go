@@ -13,6 +13,7 @@ import (
 
 func InitGetCustomersController() http.Handler {
 	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	mysqlConn.SetMaxOpenConns(500)
 	if sqlOpenErr != nil {
 		log.Fatal(sqlOpenErr)
 	}
@@ -27,6 +28,7 @@ func InitGetCustomersController() http.Handler {
 }
 func InitGetSingleCustomerByIdController() http.Handler {
 	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	mysqlConn.SetMaxOpenConns(500)
 	if sqlOpenErr != nil {
 		log.Fatal(sqlOpenErr)
 	}
@@ -36,6 +38,7 @@ func InitGetSingleCustomerByIdController() http.Handler {
 }
 func InitAddCustomerController() http.Handler {
 	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	mysqlConn.SetMaxOpenConns(500)
 	if sqlOpenErr != nil {
 		log.Fatal(sqlOpenErr)
 	}
@@ -46,6 +49,7 @@ func InitAddCustomerController() http.Handler {
 
 func InitUpdateCustomerController() http.Handler {
 	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	mysqlConn.SetMaxOpenConns(500)
 	if sqlOpenErr != nil {
 		log.Fatal(sqlOpenErr)
 	}
@@ -55,6 +59,8 @@ func InitUpdateCustomerController() http.Handler {
 }
 func InitDeleteCustomerController() http.Handler {
 	mysqlConn, sqlOpenErr := sql.Open("mysql", "root:@tcp(localhost:3306)/customer_management")
+	mysqlConn.SetMaxOpenConns(500)
+
 	if sqlOpenErr != nil {
 		log.Fatal(sqlOpenErr)
 	}
