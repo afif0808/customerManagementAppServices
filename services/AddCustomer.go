@@ -4,6 +4,7 @@ import (
 	"customerManagementAppServices/interfaces"
 	"customerManagementAppServices/models"
 	"fmt"
+	"log"
 )
 
 func AddCustomer(dbHandler interfaces.IDBHandler) models.AddCustomerModel {
@@ -12,17 +13,11 @@ func AddCustomer(dbHandler interfaces.IDBHandler) models.AddCustomerModel {
 			return fmt.Errorf("Error : customer name cannot be empty")
 		}
 		addCustomerError := dbHandler.Execute(`
-      INSERT INTO customers(customer_name)VALUES(?);
-    `, customerName)
+      INSERT INTO customer(customer_name,customer_information)VALUES(?,?);
+    `, customerName, customerInformation)
 		if addCustomerError != nil {
+			log.Println(addCustomerError)
 			return addCustomerError
-		}
-
-		addCustomerInformationError := dbHandler.Execute(`
-		INSERT INTO customers_information(customer_id,customer_information)VALUES(LAST_INSERT_ID(),?)
-	`, customerInformation)
-		if addCustomerInformationError != nil {
-			return addCustomerInformationError
 		}
 
 		return nil

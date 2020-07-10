@@ -17,21 +17,13 @@ func UpdateCustomer(dbHandler interfaces.IDBHandler) models.UpdateCustomerModel 
 		}
 
 		updateCustomerError := dbHandler.Execute(`
-      UPDATE customers SET customer_name = ?
+      UPDATE customer SET customer_name = ? , customer_information = ?
       WHERE customer_id = ?
-    `, newCustomerName, customerId)
+    `, newCustomerName, newCustomerInformation, customerId)
 		if updateCustomerError != nil {
 			return updateCustomerError
 		}
 
-		updateCustomerInforamtionError := dbHandler.Execute(`
-      UPDATE customers_information SET customer_information = ?
-      WHERE customer_id = ?
-  `, newCustomerInformation, customerId)
-
-		if updateCustomerInforamtionError != nil {
-			return updateCustomerInforamtionError
-		}
 		return nil
 
 	}

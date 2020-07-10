@@ -13,10 +13,9 @@ func GetCustomers(dbHandler interfaces.IDBHandler) models.GetCustomersModel {
 	return func(limit int, offset int) ([]models.CustomerModel, error) {
 		var customers []models.CustomerModel
 		query, queryErr := dbHandler.Query(
-			`SELECT customers.customer_id , customer_name , customer_information ,customer_date_added 
-			 FROM customers , customers_information
-			 WHERE customers.customer_id = customers_information.customer_id
-			 ORDER BY customers.customer_id DESC
+			`SELECT customer_id , customer_name , customer_information ,customer_addedat
+			 FROM customer
+			 ORDER BY customer_id DESC
 			 LIMIT ? OFFSET ?`, limit, offset)
 
 		if queryErr != nil && queryErr != sql.ErrNoRows {

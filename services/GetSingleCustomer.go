@@ -9,11 +9,10 @@ import (
 func GetSingleCustomerById(dbHandler interfaces.IDBHandler) models.GetSingleCustomerById {
 	return func(customerId int) (*models.CustomerModel, error) {
 		query, queryErr := dbHandler.Query(
-			`
-      SELECT customers.customer_id , customer_name , customer_information
-      FROM customers , customers_information
-      WHERE customers.customer_id = customers_information.customer_id AND
-      customers.customer_id = ?
+			`SELECT customer_id , customer_name , customer_information ,customer_addedat
+			 FROM customer
+			 ORDER BY customer_id DESC
+      customer.customer_id = ?
       `, customerId,
 		)
 		if queryErr != nil {
@@ -24,7 +23,7 @@ func GetSingleCustomerById(dbHandler interfaces.IDBHandler) models.GetSingleCust
 		var customer *models.CustomerModel
 		if query.Next() {
 			customer = &models.CustomerModel{}
-			query.Scan(&customer.Id, &customer.Name, &customer.Information)
+			query.Scan(&customer.Id, &customer.Name, &customer.Information, &customer.DateAdded)
 		}
 
 		return customer, nil

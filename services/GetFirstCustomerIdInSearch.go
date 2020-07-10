@@ -11,7 +11,7 @@ import (
 func GetFirstCustomerIdInSearch(dbHandler interfaces.IDBHandler) models.GetFirstCustomerIdInSearchModel {
 	return func(searchKeyword string) (int, error) {
 		query, queryErr := dbHandler.Query(
-			"SELECT customer_id FROM customers WHERE customer_name LIKE ? ORDER BY customer_id ASC",
+			"SELECT customer_id FROM customer WHERE customer_name LIKE ? ORDER BY customer_id ASC",
 			"%"+searchKeyword+"%",
 		)
 		if queryErr != nil && queryErr != sql.ErrNoRows {
